@@ -18,41 +18,89 @@ export default function CameraRig({
 }) {
   const { camera } = useThree();
   const selected = useStore((s) => s.selected);
-  const targetPos = useRef(new THREE.Vector3());
-  const targetLook = useRef(new THREE.Vector3());
 
+  const prevSelected = useRef<string | null>(null);
+  const isTransitioning = useRef(false);
+  const transitionTime = useRef(0);
+  const prevTargetPos = useRef(new THREE.Vector3());
+
+  // Keep OrbitControls enabled always so users can rotate/zoom in 360 degrees
   useEffect(() => {
     if (controlsRef.current) {
-      controlsRef.current.enabled = selected === null;
+      controlsRef.current.enabled = true;
     }
-  }, [selected, controlsRef]);
+  }, [controlsRef]);
 
   useFrame(() => {
     const controls = controlsRef.current;
     if (!controls) return;
 
-    if (selected && planetRefs[selected]) {
-      const worldPos = new THREE.Vector3();
-      planetRefs[selected]!.getWorldPosition(worldPos);
-
-      const direction = worldPos.clone().setY(0);
-      if (direction.lengthSq() < 0.001) direction.set(1, 0, 0);
-      direction.normalize();
-
-      targetPos.current
-        .copy(worldPos)
-        .add(direction.multiplyScalar(3.2))
-        .add(new THREE.Vector3(0, 1.6, 0));
-      targetLook.current.copy(worldPos);
-    } else {
-      targetPos.current.copy(WIDE_POSITION);
-      targetLook.current.copy(WIDE_TARGET);
+    // Detect if user starts dragging during transition, and hand over control immediately
+    if (isTransitioning.current && controls.state !== undefined && controls.state !== -1) {
+      isTransitioning.current = false;
     }
 
-    const lerpFactor = reducedMotion ? 1 : 0.045;
-    camera.position.lerp(targetPos.current, lerpFactor);
-    controls.target.lerp(targetLook.current, lerpFactor);
-    controls.update();
+    // Detect target change to restart transition
+    if (selected !== prevSelected.current) {
+      prevSelected.current = selected;
+      isTransitioning.current = true;
+      transitionTime.current = 0;
+
+      if (selected && planetRefs[selected]) {
+        const worldPos = new THREE.Vector3();
+        planetRefs[selected]!.getWorldPosition(worldPos);
+        prevTargetPos.current.copy(worldPos);
+      } else {
+        prevTargetPos.current.copy(WIDE_TARGET);
+      }
+    }
+
+    // Get current target coordinate
+    const currentTargetPos = new THREE.Vector3();
+    if (selected && planetRefs[selected]) {
+      planetRefs[selected]!.getWorldPosition(currentTargetPos);
+    } else {
+      currentTargetPos.copy(WIDE_TARGET);
+    }
+
+    // Compute target displacement delta
+    const delta = new THREE.Vector3().copy(currentTargetPos).sub(prevTargetPos.current);
+
+    if (isTransitioning.current) {
+      // While transitioning, camera must track moving target's orbital translation
+      camera.position.add(delta);
+      controls.target.add(delta);
+
+      const targetLook = currentTargetPos;
+      const targetPos = new THREE.Vector3();
+      if (selected) {
+        // Taller view height for gas giant Projects planet
+        const topHeight = selected === "projects" ? 9 : 6.2;
+        targetPos.copy(currentTargetPos).add(new THREE.Vector3(0, topHeight, 0.01));
+      } else {
+        targetPos.copy(WIDE_POSITION);
+      }
+
+      const lerpFactor = reducedMotion ? 1 : 0.05;
+      camera.position.lerp(targetPos, lerpFactor);
+      controls.target.lerp(targetLook, lerpFactor);
+      controls.update();
+
+      // Deactivate transition when close enough or timed out
+      transitionTime.current += 1;
+      const distToPos = camera.position.distanceTo(targetPos);
+      const distToLook = controls.target.distanceTo(targetLook);
+      if ((distToPos < 0.05 && distToLook < 0.05) || transitionTime.current > 100) {
+        isTransitioning.current = false;
+      }
+    } else {
+      // In tracking mode, update controls.target to follow the moving target.
+      // OrbitControls automatically positions the camera at the same spherical offset.
+      controls.target.copy(currentTargetPos);
+      controls.update();
+    }
+
+    prevTargetPos.current.copy(currentTargetPos);
   });
 
   return null;
