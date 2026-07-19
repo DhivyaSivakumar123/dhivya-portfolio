@@ -10,7 +10,9 @@ export default function CustomCursor() {
   const [isSystemUi, setIsSystemUi] = useState(false);
 
   const hoveredSection = useStore((s) => s.hoveredSection);
-  const isHovered = localClickable || hoveredSection !== null;
+  const isPlanetHovered = hoveredSection !== null;
+  const isClickableHovered = localClickable;
+  const isHovered = isPlanetHovered || isClickableHovered;
 
   // Position of cursor
   const cursorX = useMotionValue(-100);
@@ -29,9 +31,9 @@ export default function CustomCursor() {
     setVisible(true);
 
     const moveCursor = (e: MouseEvent) => {
-      // Offset by half of cursor size (50px / 2 = 25px) to center it on pointer
-      cursorX.set(e.clientX - 25);
-      cursorY.set(e.clientY - 25);
+      // Offset by half of cursor size (60px / 2 = 30px) to center it on pointer
+      cursorX.set(e.clientX - 30);
+      cursorY.set(e.clientY - 30);
     };
 
     const handleMouseOver = (e: MouseEvent) => {
@@ -72,18 +74,18 @@ export default function CustomCursor() {
       style={{
         x: cursorXSpring,
         y: cursorYSpring,
-        width: "50px",
-        height: "50px",
+        width: "60px",
+        height: "60px",
       }}
     >
       <motion.img
         src="/astronaut.png"
         alt="astronaut cursor"
-        className="w-12 h-12 select-none pointer-events-none filter drop-shadow-[0_0_4px_rgba(79,216,196,0.3)]"
+        className="w-14 h-14 select-none pointer-events-none filter drop-shadow-[0_0_8px_rgba(255,255,255,0.85)] drop-shadow-[0_0_15px_rgba(20,184,166,0.6)]"
         animate={{
           scale: isHovered ? 1.3 : 1,
           rotate: isHovered ? 15 : 0,
-          opacity: isHovered ? 0.5 : 1,
+          opacity: isPlanetHovered ? 0.5 : 1,
         }}
         transition={{
           type: "spring",
