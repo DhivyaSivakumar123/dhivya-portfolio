@@ -8,6 +8,9 @@ import {
   certifications,
   contact,
   profile,
+  experience,
+  achievements,
+  futureGoals,
   type SectionId
 } from "@/data/content";
 import { useStore } from "@/store/useStore";
@@ -172,6 +175,54 @@ function ContactContent() {
   );
 }
 
+function ExperienceContent() {
+  return (
+    <div className="space-y-4">
+      {experience.map((item) => (
+        <div key={item.id} className="border border-border rounded-lg p-4 bg-surfaceRaised">
+          <p className="text-[11px] font-mono text-amber mb-1">{item.duration}</p>
+          <h3 className="text-sm font-display mb-1">{item.role}</h3>
+          <p className="text-xs text-textMuted mb-3">{item.organization}</p>
+          <ul className="list-disc pl-4 space-y-1.5">
+            {item.points.map((pt, i) => (
+              <li key={i} className="text-xs text-textSecondary leading-relaxed">
+                {pt}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function AchievementsContent() {
+  return (
+    <div className="space-y-3">
+      {achievements.map((item, i) => (
+        <div key={i} className="flex gap-3 border border-border rounded-lg p-4 bg-surfaceRaised">
+          <span className="text-teal font-mono text-xs">0{i + 1}.</span>
+          <p className="text-xs text-textSecondary leading-relaxed">{item}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function GoalsContent() {
+  return (
+    <div className="space-y-3">
+      <h3 className="text-xs font-mono text-amber mb-3">{futureGoals.title}</h3>
+      {futureGoals.focusAreas.map((item, i) => (
+        <div key={i} className="border border-border rounded-lg p-4 bg-surfaceRaised">
+          <h4 className="text-xs font-display text-teal mb-1">{item.title}</h4>
+          <p className="text-xs text-textSecondary leading-relaxed">{item.description}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default function SectionPanel({ id }: { id: SectionId }) {
   const activeProject = useStore((s) => s.activeProject);
 
@@ -182,12 +233,18 @@ export default function SectionPanel({ id }: { id: SectionId }) {
       return <EducationContent />;
     case "skills":
       return <SkillsContent />;
+    case "experience":
+      return <ExperienceContent />;
     case "projects":
       return <ProjectsContent activeProject={activeProject} />;
     case "certifications":
       return <CertificationsContent />;
+    case "achievements":
+      return <AchievementsContent />;
     case "contact":
       return <ContactContent />;
+    case "goals":
+      return <GoalsContent />;
     default:
       return null;
   }

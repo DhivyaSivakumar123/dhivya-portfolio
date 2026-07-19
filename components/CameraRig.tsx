@@ -74,8 +74,14 @@ export default function CameraRig({
       const targetLook = currentTargetPos;
       const targetPos = new THREE.Vector3();
       if (selected) {
-        // Taller view height for gas giant Projects planet
-        const topHeight = selected === "projects" ? 9 : 6.2;
+        let topHeight = 6.2;
+        if (selected === "certifications") {
+          topHeight = 9.0; // Jupiter (largest)
+        } else if (selected === "achievements") {
+          topHeight = 8.2; // Saturn (ringed giant)
+        } else if (selected === "education" || selected === "projects") {
+          topHeight = 4.8; // Mercury & Mars (smaller rocks)
+        }
         targetPos.copy(currentTargetPos).add(new THREE.Vector3(0, topHeight, 0.01));
       } else {
         targetPos.copy(WIDE_POSITION);

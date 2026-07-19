@@ -18,10 +18,14 @@ export default function OrbitPath({ radius }: { radius: number }) {
   return (
     <Line
       points={points}
-      color={new THREE.Color("#225599")}
-      lineWidth={1.6}
+      color="white"
+      lineWidth={1}
+      dashed
+      dashScale={1.5}
+      dashSize={0.15}
+      gapSize={0.1}
       transparent
-      opacity={0.65}
+      opacity={0.3}
     />
   );
 }

@@ -53,7 +53,7 @@ export default function UIOverlay() {
                   : "text-textMuted hover:text-textSecondary"
               }`}
             >
-              {s.id}
+              {s.label.toLowerCase()}
             </button>
           ))}
       </nav>

@@ -2,9 +2,12 @@ export type SectionId =
   | "about"
   | "education"
   | "skills"
+  | "experience"
   | "projects"
   | "certifications"
-  | "contact";
+  | "achievements"
+  | "contact"
+  | "goals";
 
 export interface Project {
   id: string;
@@ -152,11 +155,52 @@ export const contact = {
   leetcode: "leetcode.com/u/dhivya2006"
 };
 
+export interface ExperienceItem {
+  id: string;
+  role: string;
+  organization: string;
+  duration: string;
+  points: string[];
+}
+
+export const experience: ExperienceItem[] = [
+  {
+    id: "symposium",
+    role: "Symposium Coordinator",
+    organization: "Meenakshi Sundararajan Engineering College (MSEC)",
+    duration: "2025 — 2026",
+    points: [
+      "Assisted in planning, promoting, and executing technical symposium events.",
+      "Coordinated with student bodies and college administration to streamline scheduling.",
+      "Developed organizational skills and team leadership abilities under pressure."
+    ]
+  }
+];
+
+export const achievements = [
+  "School First in Higher Secondary Examination (12th Standard)",
+  "Scored 92.16% in Higher Secondary Board Exams",
+  "Participated in National Level Technical Paper Presentation (YANTRA 2K26)"
+];
+
+export const futureGoals = {
+  title: "Future Development Roadmap",
+  focusAreas: [
+    { title: "Advanced Java", description: "Deep diving into concurrency, JVM tuning, and performance profiling." },
+    { title: "Enterprise Backend", description: "Building scalable microservices utilizing Spring Boot and Spring Cloud." },
+    { title: "Database Architecture", description: "Learning query optimization, indexing strategies, and database sharding." },
+    { title: "Cloud Deployment", description: "Familiarization with Docker containerization, Kubernetes orchestration, and AWS basics." }
+  ]
+};
+
 export const sections: { id: SectionId; label: string; command: string }[] = [
   { id: "about", label: "About", command: "cd ./about" },
   { id: "education", label: "Education", command: "cd ./education" },
   { id: "skills", label: "Skills", command: "cd ./skills" },
+  { id: "experience", label: "Experience", command: "cd ./experience" },
   { id: "projects", label: "Projects", command: "cd ./projects" },
   { id: "certifications", label: "Certifications", command: "cd ./certifications" },
-  { id: "contact", label: "Contact", command: "cd ./contact" }
+  { id: "achievements", label: "Achievements", command: "cd ./achievements" },
+  { id: "contact", label: "Contact", command: "cd ./contact" },
+  { id: "goals", label: "Future Goals", command: "cd ./future_goals" }
 ];
