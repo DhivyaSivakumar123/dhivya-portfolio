@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useStore } from "@/store/useStore";
-import { sections, profile } from "@/data/content";
+import { sections } from "@/data/content";
 import SectionPanel from "./panels/SectionPanel";
 
 export default function UIOverlay() {
@@ -12,30 +12,46 @@ export default function UIOverlay() {
   const reset = useStore((s) => s.reset);
 
   const [displayedQuery, setDisplayedQuery] = useState("");
-  const [displayedOutput, setDisplayedOutput] = useState("");
+  const [displayedOutput, setDisplayedOutput] = useState<string[]>([]);
 
   useEffect(() => {
     const queryText = "select role from career_goals;";
-    const outputText = `> ${profile.role}`;
+    const outputLines = [
+      "> Full Stack Developer | Cloud Enthusiast",
+      "> Final-Year B.Tech IT Student @ MSEC (CGPA: 8.53)",
+      "> Core Java, Spring Boot & Cloud Architectures"
+    ];
     let queryIdx = 0;
-    let outputIdx = 0;
+    let lineIdx = 0;
+    let charIdx = 0;
     let timer: NodeJS.Timeout;
 
     const typeQuery = () => {
       if (queryIdx < queryText.length) {
         setDisplayedQuery(queryText.slice(0, queryIdx + 1));
         queryIdx++;
-        timer = setTimeout(typeQuery, 50);
+        timer = setTimeout(typeQuery, 40);
       } else {
-        timer = setTimeout(typeOutput, 300);
+        timer = setTimeout(typeOutputLine, 250);
       }
     };
 
-    const typeOutput = () => {
-      if (outputIdx < outputText.length) {
-        setDisplayedOutput(outputText.slice(0, outputIdx + 1));
-        outputIdx++;
-        timer = setTimeout(typeOutput, 75);
+    const typeOutputLine = () => {
+      if (lineIdx < outputLines.length) {
+        const targetLine = outputLines[lineIdx];
+        if (charIdx < targetLine.length) {
+          setDisplayedOutput((prev) => {
+            const next = [...prev];
+            next[lineIdx] = targetLine.slice(0, charIdx + 1);
+            return next;
+          });
+          charIdx++;
+          timer = setTimeout(typeOutputLine, 25);
+        } else {
+          lineIdx++;
+          charIdx = 0;
+          timer = setTimeout(typeOutputLine, 120);
+        }
       }
     };
 
@@ -55,27 +71,29 @@ export default function UIOverlay() {
           <span>dhivya.dev</span>
           <span className="inline-block w-2 h-4 bg-teal cursor-blink" />
         </div>
-        <div className="bg-surface/80 backdrop-blur border border-border rounded-lg px-4 py-3 font-mono text-xs text-textSecondary min-h-[66px] shadow-lg">
+        <div className="bg-surface/80 backdrop-blur border border-border rounded-lg px-4 py-3 font-mono text-xs text-textSecondary min-h-[110px] shadow-lg">
           <p>
             <span className="text-teal">$</span> {displayedQuery}
             {displayedQuery.length < 29 && (
               <span className="inline-block w-1.5 h-3 bg-teal ml-0.5 animate-pulse" />
             )}
           </p>
-          {displayedOutput && (
-            <p className="text-text mt-1">{displayedOutput}</p>
-          )}
+          {displayedOutput.map((line, idx) => (
+            <p key={idx} className={`${idx === 0 ? "text-text" : "text-textMuted"} mt-1 leading-relaxed`}>
+              {line}
+            </p>
+          ))}
         </div>
       </div>
 
       {/* Nav */}
-      <nav className="pointer-events-auto absolute bottom-6 left-6 bg-surface/80 backdrop-blur border border-border rounded-xl p-3 flex flex-col gap-1 min-w-[150px] shadow-lg">
+      <nav className="pointer-events-auto absolute bottom-6 left-6 bg-white/95 border border-slate-200 rounded-xl p-3 flex flex-col gap-1 min-w-[150px] shadow-lg">
         <button
           onClick={() => setSelected("about")}
           className={`text-left font-mono text-xs px-3 py-1.5 rounded transition-colors ${
             selected === "about"
-              ? "text-teal bg-tealDim/40"
-              : "text-textMuted hover:text-textSecondary"
+              ? "text-slate-950 font-bold bg-slate-200/80"
+              : "text-slate-600 hover:text-slate-900 hover:bg-slate-100/60"
           }`}
         >
           about
@@ -88,8 +106,8 @@ export default function UIOverlay() {
               onClick={() => setSelected(s.id)}
               className={`text-left font-mono text-xs px-3 py-1.5 rounded transition-colors ${
                 selected === s.id
-                  ? "text-teal bg-tealDim/40"
-                  : "text-textMuted hover:text-textSecondary"
+                  ? "text-slate-950 font-bold bg-slate-200/80"
+                  : "text-slate-600 hover:text-slate-900 hover:bg-slate-100/60"
               }`}
             >
               {s.label.toLowerCase()}

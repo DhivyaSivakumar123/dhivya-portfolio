@@ -4,9 +4,7 @@ import * as THREE from "three";
 import Sun from "./Sun";
 import Planet from "./Planet";
 import OrbitPath from "./OrbitPath";
-import SkillsRing from "./SkillsRing";
 import ProjectList from "./ProjectList";
-import CertSatellites from "./CertSatellites";
 import ContactPulse from "./ContactPulse";
 
 const ORBITS = {
@@ -57,9 +55,7 @@ export default function SolarSystem({ reducedMotion }: { reducedMotion: boolean 
         speed={0.28}
         angleOffset={2.1}
         reducedMotion={reducedMotion}
-      >
-        <SkillsRing baseSize={0.34} />
-      </Planet>
+      />
 
       {/* 3. Earth - Experience */}
       <Planet
@@ -106,9 +102,7 @@ export default function SolarSystem({ reducedMotion }: { reducedMotion: boolean 
         speed={0.12}
         angleOffset={1.2}
         reducedMotion={reducedMotion}
-      >
-        <CertSatellites baseSize={0.75} />
-      </Planet>
+      />
 
       {/* 6. Saturn - Achievements */}
       <Planet
