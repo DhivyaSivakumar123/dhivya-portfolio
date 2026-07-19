@@ -4,7 +4,6 @@ import * as THREE from "three";
 import Sun from "./Sun";
 import Planet from "./Planet";
 import OrbitPath from "./OrbitPath";
-import ProjectList from "./ProjectList";
 import ContactPulse from "./ContactPulse";
 
 const ORBITS = {
@@ -85,9 +84,7 @@ export default function SolarSystem({ reducedMotion }: { reducedMotion: boolean 
         speed={0.18}
         angleOffset={4.0}
         reducedMotion={reducedMotion}
-      >
-        <ProjectList baseSize={0.28} />
-      </Planet>
+      />
 
       {/* 5. Jupiter - Certifications */}
       <Planet

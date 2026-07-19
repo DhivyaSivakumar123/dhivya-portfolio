@@ -80,6 +80,9 @@ export default function UIOverlay() {
     };
   }, []);
 
+  const hoveredSection = useStore((s) => s.hoveredSection);
+  const setHoveredSection = useStore((s) => s.setHoveredSection);
+
   const activeLabel =
     selected === "about" ? "About" : sections.find((s) => s.id === selected)?.label;
 
@@ -88,7 +91,7 @@ export default function UIOverlay() {
       {/* Header / terminal */}
       <div className="pointer-events-auto absolute top-6 left-6 max-w-xs">
         <div className="flex items-center gap-2 mb-3">
-          <span className="font-edwardian text-4xl text-teal tracking-wide">Dhivya S</span>
+          <span className="font-edwardian text-5xl text-teal tracking-wider">Dhivya S</span>
           <span className="inline-block w-1.5 h-5 bg-teal cursor-blink" />
         </div>
         <div className="bg-surface/80 backdrop-blur border border-border rounded-lg px-4 py-3 font-mono text-sm text-textSecondary min-h-[135px] shadow-lg">
@@ -120,8 +123,10 @@ export default function UIOverlay() {
       <nav className="pointer-events-auto absolute bottom-6 left-6 bg-slate-950/80 backdrop-blur border border-teal/40 shadow-[0_0_15px_rgba(20,184,166,0.2)] rounded-xl p-3 flex flex-col gap-1 min-w-[160px]">
         <button
           onClick={() => setSelected("about")}
+          onMouseEnter={() => setHoveredSection("about")}
+          onMouseLeave={() => setHoveredSection(null)}
           className={`text-left font-mono text-sm px-3.5 py-2 rounded-lg transition-colors ${
-            selected === "about"
+            selected === "about" || hoveredSection === "about"
               ? "text-teal bg-tealDim/30 border-l-2 border-teal"
               : "text-teal/70 hover:text-teal hover:bg-tealDim/10"
           }`}
@@ -130,19 +135,24 @@ export default function UIOverlay() {
         </button>
         {sections
           .filter((s) => s.id !== "about")
-          .map((s) => (
-            <button
-              key={s.id}
-              onClick={() => setSelected(s.id)}
-              className={`text-left font-mono text-sm px-3.5 py-2 rounded-lg transition-colors ${
-                selected === s.id
-                  ? "text-teal bg-tealDim/30 border-l-2 border-teal"
-                  : "text-teal/70 hover:text-teal hover:bg-tealDim/10"
-              }`}
-            >
-              {s.label.toLowerCase()}
-            </button>
-          ))}
+          .map((s) => {
+            const isHighlighted = selected === s.id || hoveredSection === s.id;
+            return (
+              <button
+                key={s.id}
+                onClick={() => setSelected(s.id)}
+                onMouseEnter={() => setHoveredSection(s.id)}
+                onMouseLeave={() => setHoveredSection(null)}
+                className={`text-left font-mono text-sm px-3.5 py-2 rounded-lg transition-colors ${
+                  isHighlighted
+                    ? "text-teal bg-tealDim/30 border-l-2 border-teal"
+                    : "text-teal/70 hover:text-teal hover:bg-tealDim/10"
+                }`}
+              >
+                {s.label.toLowerCase()}
+              </button>
+            );
+          })}
       </nav>
 
       {/* Side panel */}
@@ -166,12 +176,11 @@ export default function UIOverlay() {
 
             <div className="sticky top-0 bg-surface/95 backdrop-blur border-b border-border px-6 py-4 flex items-center justify-between">
               <div>
-                <p className="font-mono text-xs text-teal">-- {selected}</p>
-                <h2 className="text-xl font-display">{activeLabel}</h2>
+                <h2 className="text-2xl font-display">{activeLabel}</h2>
               </div>
               <button
                 onClick={reset}
-                className="font-mono text-xs border border-borderStrong rounded px-3 py-1.5 text-textSecondary hover:border-teal hover:text-teal transition-colors"
+                className="font-mono text-sm border border-borderStrong rounded px-3 py-1.5 text-textSecondary hover:border-teal hover:text-teal transition-colors"
               >
                 back
               </button>

@@ -32,7 +32,7 @@ export interface Certification {
 }
 
 export const profile = {
-  name: "Dhivya Sivakumar",
+  name: "Dhivya S",
   role: "Backend Developer",
   tagline:
     "Final-year B.Tech Information Technology student building reliable, scalable backend systems.",
@@ -109,21 +109,32 @@ export const projects: Project[] = [
     name: "Luma — AI Mental Health Assistant",
     description:
       "A mental wellness platform offering AI-assisted conversations, mood tracking, and personalized wellness suggestions in a safe, accessible environment.",
-    stack: ["React", "Node.js", "Express.js", "MongoDB", "OpenAI API"]
+    stack: ["React", "Node.js", "Express.js", "MongoDB", "OpenAI API"],
+    link: "https://mental-health-self.vercel.app"
   },
   {
     id: "payment-orchestration",
     name: "Payment Orchestration Platform",
     description:
       "A backend-focused platform unifying multiple payment gateways behind one interface — handling intelligent transaction routing, retries, and secure workflows.",
-    stack: ["Java", "Spring Boot", "REST APIs", "MySQL", "JWT"]
+    stack: ["Java", "Spring Boot", "REST APIs", "MySQL", "JWT"],
+    link: "https://github.com/DhivyaSivakumar123/payment-orchestration"
   },
   {
     id: "signal",
     name: "Signal — Smart Manager Workspace",
     description:
       "A centralized productivity dashboard integrating Gmail, Slack, Outlook, and Calendar into one view — helping managers track communication and tasks efficiently.",
-    stack: ["React", "Node.js", "MongoDB", "Google APIs", "MS Graph API", "Slack API"]
+    stack: ["React", "Node.js", "MongoDB", "Google APIs", "MS Graph API", "Slack API"],
+    link: "https://signal-mocha-nine.vercel.app"
+  },
+  {
+    id: "medimind-ai",
+    name: "MediMind AI",
+    description:
+      "An AI-powered clinical decision support system analyzing patient symptoms, predicting diagnosis, and cross-checking drug interactions dynamically.",
+    stack: ["React", "FastAPI", "Python", "MongoDB", "Gemini API"],
+    link: "https://aimedimind.vercel.app"
   }
 ];
 
