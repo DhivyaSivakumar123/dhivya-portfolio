@@ -118,7 +118,7 @@ export const projects: Project[] = [
     description:
       "A backend-focused platform unifying multiple payment gateways behind one interface — handling intelligent transaction routing, retries, and secure workflows.",
     stack: ["Java", "Spring Boot", "REST APIs", "MySQL", "JWT"],
-    link: "https://github.com/DhivyaSivakumar123/payment-orchestration"
+    link: "https://github.com/ZethetaIntern/payment_orchestration_layer"
   },
   {
     id: "signal",

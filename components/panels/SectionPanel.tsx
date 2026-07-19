@@ -119,7 +119,7 @@ function ProjectsContent({ activeProject }: { activeProject: string | null }) {
               rel="noopener noreferrer"
               className="text-base font-mono text-teal hover:underline"
             >
-              View live demo →
+              {p.link.includes("github.com") ? "View on GitHub →" : "View live demo →"}
             </a>
           )}
         </div>

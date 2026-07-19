@@ -21,6 +21,10 @@ body {
   overscroll-behavior: none;
 }
 
+html, body, a, button, input, select, textarea, [role="button"], canvas {
+  cursor: none !important;
+}
+
 * {
   scrollbar-width: thin;
   scrollbar-color: #334051 #0b0f14;
