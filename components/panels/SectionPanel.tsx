@@ -17,7 +17,7 @@ import { useStore } from "@/store/useStore";
 
 function Tag({ children }: { children: React.ReactNode }) {
   return (
-    <span className="text-[11px] font-mono text-textSecondary border border-borderStrong rounded px-2 py-1">
+    <span className="text-xs font-mono text-textSecondary border border-borderStrong rounded px-2 py-1">
       {children}
     </span>
   );
@@ -27,18 +27,18 @@ function AboutContent() {
   return (
     <div className="space-y-4">
       {about.paragraphs.map((p, i) => (
-        <p key={i} className="text-sm text-textSecondary leading-relaxed">
+        <p key={i} className="text-base text-textSecondary leading-relaxed">
           {p}
         </p>
       ))}
       <div className="flex gap-6 pt-2">
         <div>
-          <div className="font-mono text-xl text-teal">{profile.cgpa}</div>
-          <div className="text-[11px] text-textMuted uppercase tracking-wide">CGPA</div>
+          <div className="font-mono text-2xl text-teal">{profile.cgpa}</div>
+          <div className="text-xs text-textMuted uppercase tracking-wide">CGPA</div>
         </div>
         <div>
-          <div className="font-mono text-xl text-teal">{profile.gradYear}</div>
-          <div className="text-[11px] text-textMuted uppercase tracking-wide">Graduating</div>
+          <div className="font-mono text-2xl text-teal">{profile.gradYear}</div>
+          <div className="text-xs text-textMuted uppercase tracking-wide">Graduating</div>
         </div>
       </div>
     </div>
@@ -48,19 +48,19 @@ function AboutContent() {
 function EducationContent() {
   return (
     <div className="space-y-2">
-      <p className="text-[11px] font-mono text-amber">{education.years}</p>
-      <h3 className="text-base font-display">{education.degree}</h3>
-      <p className="text-sm text-textSecondary">
+      <p className="text-xs font-mono text-amber">{education.years}</p>
+      <h3 className="text-lg font-display">{education.degree}</h3>
+      <p className="text-base text-textSecondary">
         {education.school}, {education.location}
       </p>
       <div className="flex gap-6 pt-2">
         <div>
-          <div className="font-mono text-xl text-teal">{education.cgpa}</div>
-          <div className="text-[11px] text-textMuted uppercase tracking-wide">CGPA</div>
+          <div className="font-mono text-2xl text-teal">{education.cgpa}</div>
+          <div className="text-xs text-textMuted uppercase tracking-wide">CGPA</div>
         </div>
         <div>
-          <div className="font-mono text-xl text-teal">{education.status}</div>
-          <div className="text-[11px] text-textMuted uppercase tracking-wide">Status</div>
+          <div className="font-mono text-2xl text-teal">{education.status}</div>
+          <div className="text-xs text-textMuted uppercase tracking-wide">Status</div>
         </div>
       </div>
     </div>
@@ -77,7 +77,7 @@ function SkillsContent() {
               className="w-2 h-2 rounded-full"
               style={{ background: cat.color }}
             />
-            <h4 className="text-xs font-mono text-textSecondary">{cat.label}</h4>
+            <h4 className="text-sm font-mono text-textSecondary">{cat.label}</h4>
           </div>
           <div className="flex flex-wrap gap-2">
             {cat.skills.map((s) => (
@@ -103,8 +103,8 @@ function ProjectsContent({ activeProject }: { activeProject: string | null }) {
               : "border-border bg-surfaceRaised"
           }`}
         >
-          <h3 className="text-sm font-display mb-1">{p.name}</h3>
-          <p className="text-xs text-textSecondary mb-3 leading-relaxed">
+          <h3 className="text-base font-display mb-1">{p.name}</h3>
+          <p className="text-sm text-textSecondary mb-3 leading-relaxed">
             {p.description}
           </p>
           <div className="flex flex-wrap gap-2 mb-3">
@@ -117,7 +117,7 @@ function ProjectsContent({ activeProject }: { activeProject: string | null }) {
               href={p.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs font-mono text-teal hover:underline"
+              className="text-sm font-mono text-teal hover:underline"
             >
               View live demo →
             </a>
@@ -134,7 +134,7 @@ function CertificationsContent() {
       {certifications.map((cert) => (
         <div key={cert.id} className="border border-border rounded-lg p-4 bg-surfaceRaised">
           <span
-            className={`inline-block text-[10px] font-mono rounded px-2 py-0.5 mb-2 ${
+            className={`inline-block text-xs font-mono rounded px-2 py-0.5 mb-2 ${
               cert.status === "completed"
                 ? "bg-tealDim text-teal"
                 : "bg-amberDim text-amber"
@@ -142,8 +142,8 @@ function CertificationsContent() {
           >
             {cert.status === "completed" ? "completed" : "in progress"}
           </span>
-          <h3 className="text-sm font-display mb-1">{cert.name}</h3>
-          <p className="text-xs text-textSecondary">{cert.issuer}</p>
+          <h3 className="text-base font-display mb-1">{cert.name}</h3>
+          <p className="text-sm text-textSecondary">{cert.issuer}</p>
         </div>
       ))}
     </div>
@@ -167,8 +167,8 @@ function ContactContent() {
           rel="noopener noreferrer"
           className="flex items-center justify-between border border-border rounded-lg px-4 py-3 bg-surfaceRaised hover:border-teal transition-colors"
         >
-          <span className="text-[11px] font-mono text-textMuted">{l.label}</span>
-          <span className="text-sm text-text">{l.value}</span>
+          <span className="text-xs font-mono text-textMuted">{l.label}</span>
+          <span className="text-base text-text">{l.value}</span>
         </a>
       ))}
     </div>
@@ -180,12 +180,12 @@ function ExperienceContent() {
     <div className="space-y-4">
       {experience.map((item) => (
         <div key={item.id} className="border border-border rounded-lg p-4 bg-surfaceRaised">
-          <p className="text-[11px] font-mono text-amber mb-1">{item.duration}</p>
-          <h3 className="text-sm font-display mb-1">{item.role}</h3>
-          <p className="text-xs text-textMuted mb-3">{item.organization}</p>
+          <p className="text-xs font-mono text-amber mb-1">{item.duration}</p>
+          <h3 className="text-base font-display mb-1">{item.role}</h3>
+          <p className="text-sm text-textMuted mb-3">{item.organization}</p>
           <ul className="list-disc pl-4 space-y-1.5">
             {item.points.map((pt, i) => (
-              <li key={i} className="text-xs text-textSecondary leading-relaxed">
+              <li key={i} className="text-sm text-textSecondary leading-relaxed">
                 {pt}
               </li>
             ))}
@@ -201,8 +201,8 @@ function AchievementsContent() {
     <div className="space-y-3">
       {achievements.map((item, i) => (
         <div key={i} className="flex gap-3 border border-border rounded-lg p-4 bg-surfaceRaised">
-          <span className="text-teal font-mono text-xs">0{i + 1}.</span>
-          <p className="text-xs text-textSecondary leading-relaxed">{item}</p>
+          <span className="text-teal font-mono text-sm">0{i + 1}.</span>
+          <p className="text-sm text-textSecondary leading-relaxed">{item}</p>
         </div>
       ))}
     </div>
@@ -212,11 +212,11 @@ function AchievementsContent() {
 function GoalsContent() {
   return (
     <div className="space-y-3">
-      <h3 className="text-xs font-mono text-amber mb-3">{futureGoals.title}</h3>
+      <h3 className="text-sm font-mono text-amber mb-3">{futureGoals.title}</h3>
       {futureGoals.focusAreas.map((item, i) => (
         <div key={i} className="border border-border rounded-lg p-4 bg-surfaceRaised">
-          <h4 className="text-xs font-display text-teal mb-1">{item.title}</h4>
-          <p className="text-xs text-textSecondary leading-relaxed">{item.description}</p>
+          <h4 className="text-sm font-display text-teal mb-1">{item.title}</h4>
+          <p className="text-sm text-textSecondary leading-relaxed">{item.description}</p>
         </div>
       ))}
     </div>
