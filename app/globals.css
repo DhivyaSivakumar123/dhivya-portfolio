@@ -21,8 +21,19 @@ body {
   overscroll-behavior: none;
 }
 
-html, body, a, button, input, select, textarea, [role="button"], canvas {
+html, body, canvas {
   cursor: none !important;
+}
+
+.show-system-cursor,
+.show-system-cursor * {
+  cursor: auto !important;
+}
+a.show-system-cursor,
+button.show-system-cursor,
+.show-system-cursor a,
+.show-system-cursor button {
+  cursor: pointer !important;
 }
 
 * {

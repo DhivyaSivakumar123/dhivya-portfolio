@@ -110,7 +110,7 @@ export default function UIOverlay() {
         <a
           href="/resume.pdf"
           download="Dhivya_Sivakumar_Resume.pdf"
-          className="pointer-events-auto mt-3 inline-flex items-center justify-center gap-2 w-full bg-tealDim/10 border border-teal text-teal hover:bg-teal hover:text-black transition-all rounded-lg px-4 py-2.5 font-mono text-sm font-bold shadow-[0_0_8px_rgba(20,184,166,0.15)] hover:shadow-[0_0_15px_rgba(20,184,166,0.4)] cursor-pointer"
+          className="show-system-cursor pointer-events-auto mt-3 inline-flex items-center justify-center gap-2 w-full bg-tealDim/10 border border-teal text-teal hover:bg-teal hover:text-black transition-all rounded-lg px-4 py-2.5 font-mono text-sm font-bold shadow-[0_0_8px_rgba(20,184,166,0.15)] hover:shadow-[0_0_15px_rgba(20,184,166,0.4)] cursor-pointer"
         >
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -120,7 +120,7 @@ export default function UIOverlay() {
       </div>
 
       {/* Nav */}
-      <nav className="pointer-events-auto absolute bottom-6 left-6 bg-slate-950/80 backdrop-blur border border-teal/40 shadow-[0_0_15px_rgba(20,184,166,0.2)] rounded-xl p-3 flex flex-col gap-1 min-w-[160px]">
+      <nav className="show-system-cursor pointer-events-auto absolute bottom-6 left-6 bg-slate-950/80 backdrop-blur border border-teal/40 shadow-[0_0_15px_rgba(20,184,166,0.2)] rounded-xl p-3 flex flex-col gap-1 min-w-[160px]">
         <button
           onClick={() => setSelected("about")}
           onMouseEnter={() => setHoveredSection("about")}
@@ -164,7 +164,7 @@ export default function UIOverlay() {
             exit={{ x: 40, opacity: 0 }}
             transition={{ duration: 0.3, ease: "easeOut" }}
             style={{ width: `${panelWidth}px` }}
-            className="pointer-events-auto fixed top-0 right-0 h-full w-full sm:w-auto bg-surface/95 backdrop-blur border-l border-border overflow-y-auto"
+            className="show-system-cursor pointer-events-auto fixed top-0 right-0 h-full w-full sm:w-auto bg-surface/95 backdrop-blur border-l border-border overflow-y-auto"
           >
             {/* Resize Drag Handle */}
             <div

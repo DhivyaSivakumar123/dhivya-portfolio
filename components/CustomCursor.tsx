@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
-
 import { useStore } from "@/store/useStore";
 
 export default function CustomCursor() {
   const [visible, setVisible] = useState(false);
   const [localClickable, setLocalClickable] = useState(false);
+  const [isSystemUi, setIsSystemUi] = useState(false);
 
   const hoveredSection = useStore((s) => s.hoveredSection);
   const isHovered = localClickable || hoveredSection !== null;
@@ -29,14 +29,19 @@ export default function CustomCursor() {
     setVisible(true);
 
     const moveCursor = (e: MouseEvent) => {
-      // Offset by half of cursor size (40px / 2 = 20px) to center it on pointer
-      cursorX.set(e.clientX - 20);
-      cursorY.set(e.clientY - 20);
+      // Offset by half of cursor size (50px / 2 = 25px) to center it on pointer
+      cursorX.set(e.clientX - 25);
+      cursorY.set(e.clientY - 25);
     };
 
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       if (!target) return;
+
+      // Hide custom cursor if hovering over standard system UI elements
+      const insideSystemUi = target.closest(".show-system-cursor");
+      setIsSystemUi(!!insideSystemUi);
+
       const isClickable =
         target.tagName === "A" ||
         target.tagName === "BUTTON" ||
@@ -58,7 +63,8 @@ export default function CustomCursor() {
     };
   }, [cursorX, cursorY]);
 
-  if (!visible) return null;
+  // Hide custom cursor when not visible, or inside system UI cards/drawers
+  if (!visible || isSystemUi) return null;
 
   return (
     <motion.div
@@ -66,17 +72,18 @@ export default function CustomCursor() {
       style={{
         x: cursorXSpring,
         y: cursorYSpring,
-        width: "40px",
-        height: "40px",
+        width: "50px",
+        height: "50px",
       }}
     >
       <motion.img
         src="/astronaut.png"
         alt="astronaut cursor"
-        className="w-10 h-10 select-none pointer-events-none filter drop-shadow-[0_0_4px_rgba(79,216,196,0.3)]"
+        className="w-12 h-12 select-none pointer-events-none filter drop-shadow-[0_0_4px_rgba(79,216,196,0.3)]"
         animate={{
           scale: isHovered ? 1.3 : 1,
           rotate: isHovered ? 15 : 0,
+          opacity: isHovered ? 0.5 : 1,
         }}
         transition={{
           type: "spring",
