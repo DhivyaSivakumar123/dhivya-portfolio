@@ -1,18 +1,42 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Text } from "@react-three/drei";
 import * as THREE from "three";
 import { useStore } from "@/store/useStore";
 import { profile } from "@/data/content";
 import { planetRefs } from "@/lib/refs";
+import { useIsCompact } from "@/hooks/useIsCompact";
+
+const vertexShader = `
+  varying vec3 vNormal;
+  void main() {
+    vNormal = normalize(normalMatrix * normal);
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+  }
+`;
+
+const fragmentShader = `
+  uniform vec3 glowColor;
+  varying vec3 vNormal;
+  void main() {
+    float intensity = pow(0.65 - dot(vNormal, vec3(0.0, 0.0, 1.0)), 2.5);
+    gl_FragColor = vec4(glowColor, intensity * 0.7);
+  }
+`;
 
 export default function Sun({ reducedMotion }: { reducedMotion: boolean }) {
   const groupRef = useRef<THREE.Group>(null);
   const meshRef = useRef<THREE.Mesh>(null);
   const glowRef = useRef<THREE.Mesh>(null);
   const setSelected = useStore((s) => s.setSelected);
+  const compact = useIsCompact();
+
+  const uniforms = useMemo(
+    () => ({ glowColor: { value: new THREE.Color("#F2B84B") } }),
+    []
+  );
 
   useEffect(() => {
     planetRefs["about"] = groupRef.current;
@@ -26,7 +50,7 @@ export default function Sun({ reducedMotion }: { reducedMotion: boolean }) {
     const t = state.clock.getElapsedTime();
     const pulse = 1 + Math.sin(t * 1.4) * 0.04;
     if (meshRef.current) meshRef.current.scale.setScalar(pulse);
-    if (glowRef.current) glowRef.current.scale.setScalar(pulse * 1.35);
+    if (glowRef.current) glowRef.current.scale.setScalar(pulse * 1.18);
     if (meshRef.current) meshRef.current.rotation.y = t * 0.08;
   });
 
@@ -38,18 +62,24 @@ export default function Sun({ reducedMotion }: { reducedMotion: boolean }) {
         setSelected("about");
       }}
     >
-      <mesh ref={glowRef}>
-        <sphereGeometry args={[1.9, 24, 24]} />
-        <meshBasicMaterial color="#F2B84B" transparent opacity={0.08} />
+      <mesh ref={glowRef} scale={1.18}>
+        <sphereGeometry args={[1.5, compact ? 24 : 48, compact ? 24 : 48]} />
+        <shaderMaterial
+          vertexShader={vertexShader}
+          fragmentShader={fragmentShader}
+          uniforms={uniforms}
+          transparent
+          side={THREE.BackSide}
+          depthWrite={false}
+        />
       </mesh>
       <mesh ref={meshRef}>
-        <icosahedronGeometry args={[1.5, 1]} />
+        <sphereGeometry args={[1.5, compact ? 24 : 48, compact ? 24 : 48]} />
         <meshStandardMaterial
           color="#F2B84B"
           emissive="#B5842E"
           emissiveIntensity={0.6}
           roughness={0.6}
-          flatShading
         />
       </mesh>
       <pointLight color="#F2D9A0" intensity={2.2} distance={40} decay={1.5} />

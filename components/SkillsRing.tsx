@@ -26,7 +26,7 @@ export default function SkillsRing({ baseSize }: { baseSize: number }) {
             setSelected("skills");
           }}
         >
-          <sphereGeometry args={[0.12, 12, 12]} />
+          <sphereGeometry args={[0.12, 16, 16]} />
           <meshStandardMaterial color={cat.color} roughness={0.5} />
         </mesh>
       ))}

@@ -26,7 +26,7 @@ export default function CertSatellites({ baseSize }: { baseSize: number }) {
             setSelected("certifications");
           }}
         >
-          <sphereGeometry args={[0.09, 10, 10]} />
+          <sphereGeometry args={[0.09, 16, 16]} />
           <meshStandardMaterial
             color="#F2B84B"
             transparent

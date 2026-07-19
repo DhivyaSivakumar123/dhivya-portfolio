@@ -22,8 +22,9 @@ export default function Scene() {
     >
       <color attach="background" args={["#0b0f14"]} />
       <fog attach="fog" args={["#0b0f14", 20, 42]} />
-      <ambientLight intensity={0.35} />
-      <hemisphereLight args={["#4FD8C4", "#0b0f14", 0.25]} />
+      <ambientLight intensity={0.15} />
+      <directionalLight color="#2B4A45" intensity={0.08} position={[-10, 4, -10]} />
+      <hemisphereLight args={["#4FD8C4", "#0b0f14", 0.15]} />
 
       <Starfield compact={compact} />
       <SolarSystem reducedMotion={reducedMotion} />

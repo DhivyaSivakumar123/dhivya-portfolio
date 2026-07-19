@@ -49,7 +49,7 @@ function Moon({
       onPointerOut={() => (document.body.style.cursor = "auto")}
     >
       <mesh>
-        <sphereGeometry args={[0.16, 12, 12]} />
+        <sphereGeometry args={[0.16, 16, 16]} />
         <meshStandardMaterial color="#F0997B" roughness={0.6} />
       </mesh>
       <Text position={[0, 0.32, 0]} fontSize={0.15} color="#9AA5B3" anchorX="center">
