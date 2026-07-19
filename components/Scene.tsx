@@ -20,11 +20,11 @@ export default function Scene() {
       camera={{ position: [0, 8, 17], fov: 50 }}
       gl={{ antialias: true }}
     >
-      <color attach="background" args={["#0b0f14"]} />
-      <fog attach="fog" args={["#0b0f14", 20, 42]} />
-      <ambientLight intensity={0.15} />
-      <directionalLight color="#2B4A45" intensity={0.08} position={[-10, 4, -10]} />
-      <hemisphereLight args={["#4FD8C4", "#0b0f14", 0.15]} />
+      <color attach="background" args={["#05091c"]} />
+      <fog attach="fog" args={["#05091c", 20, 42]} />
+      <ambientLight intensity={0.18} />
+      <directionalLight color="#2c4f8c" intensity={0.18} position={[-10, 4, -10]} />
+      <hemisphereLight args={["#2b66bf", "#05091c", 0.3]} />
 
       <Starfield compact={compact} />
       <SolarSystem reducedMotion={reducedMotion} />

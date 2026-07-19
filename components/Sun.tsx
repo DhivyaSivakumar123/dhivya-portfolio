@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
-import { Text } from "@react-three/drei";
+import { Text, Billboard } from "@react-three/drei";
 import * as THREE from "three";
 import { useStore } from "@/store/useStore";
 import { profile } from "@/data/content";
@@ -83,24 +83,26 @@ export default function Sun({ reducedMotion }: { reducedMotion: boolean }) {
         />
       </mesh>
       <pointLight color="#F2D9A0" intensity={2.2} distance={40} decay={1.5} />
-      <Text
-        position={[0, -2.4, 0]}
-        fontSize={0.42}
-        color="#E7ECF2"
-        anchorX="center"
-        anchorY="middle"
-      >
-        {profile.name}
-      </Text>
-      <Text
-        position={[0, -3.05, 0]}
-        fontSize={0.24}
-        color="#4FD8C4"
-        anchorX="center"
-        anchorY="middle"
-      >
-        {profile.role}
-      </Text>
+      <Billboard position={[0, -2.4, 0]}>
+        <Text
+          fontSize={0.42}
+          color="#E7ECF2"
+          anchorX="center"
+          anchorY="middle"
+        >
+          {profile.name}
+        </Text>
+      </Billboard>
+      <Billboard position={[0, -3.05, 0]}>
+        <Text
+          fontSize={0.24}
+          color="#4FD8C4"
+          anchorX="center"
+          anchorY="middle"
+        >
+          {profile.role}
+        </Text>
+      </Billboard>
     </group>
   );
 }

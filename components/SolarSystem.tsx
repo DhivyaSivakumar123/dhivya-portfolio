@@ -1,10 +1,11 @@
 "use client";
 
+import * as THREE from "three";
 import Sun from "./Sun";
 import Planet from "./Planet";
 import OrbitPath from "./OrbitPath";
 import SkillsRing from "./SkillsRing";
-import ProjectMoons from "./ProjectMoons";
+import ProjectList from "./ProjectList";
 import CertSatellites from "./CertSatellites";
 import ContactPulse from "./ContactPulse";
 
@@ -30,9 +31,9 @@ export default function SolarSystem({ reducedMotion }: { reducedMotion: boolean 
         label="Education"
         orbitRadius={ORBITS.education}
         size={0.32}
-        baseColor="#5B6470"
-        accentColor="#7A8494"
-        atmosphereColor="#8B96A5"
+        baseColor="#6E7A8A"
+        accentColor="#9BB0C7"
+        atmosphereColor="#B0C2D6"
         pattern="cratered"
         speed={0.22}
         angleOffset={0.2}
@@ -44,9 +45,9 @@ export default function SolarSystem({ reducedMotion }: { reducedMotion: boolean 
         label="Skills"
         orbitRadius={ORBITS.skills}
         size={0.55}
-        baseColor="#1F3D37"
-        accentColor="#4FD8C4"
-        atmosphereColor="#4FD8C4"
+        baseColor="#0E473C"
+        accentColor="#00FFD1"
+        atmosphereColor="#00FFD1"
         pattern="continents"
         speed={0.15}
         angleOffset={2.1}
@@ -60,15 +61,26 @@ export default function SolarSystem({ reducedMotion }: { reducedMotion: boolean 
         label="Projects"
         orbitRadius={ORBITS.projects}
         size={0.75}
-        baseColor="#8A5A28"
-        accentColor="#C98A3E"
-        atmosphereColor="#F2B84B"
+        baseColor="#9E5E21"
+        accentColor="#FFAA33"
+        atmosphereColor="#FFAA33"
         pattern="banded"
         speed={0.1}
         angleOffset={4.0}
         reducedMotion={reducedMotion}
       >
-        <ProjectMoons baseSize={0.75} reducedMotion={reducedMotion} />
+        {/* Saturn-like planetary rings */}
+        <mesh rotation={[Math.PI / 2.5, Math.PI / 8, 0]}>
+          <ringGeometry args={[1.05, 1.7, 64]} />
+          <meshStandardMaterial
+            color="#FFAA33"
+            transparent
+            opacity={0.5}
+            side={THREE.DoubleSide}
+            roughness={0.5}
+          />
+        </mesh>
+        <ProjectList baseSize={0.75} />
       </Planet>
 
       <Planet
@@ -76,9 +88,9 @@ export default function SolarSystem({ reducedMotion }: { reducedMotion: boolean 
         label="Certifications"
         orbitRadius={ORBITS.certifications}
         size={0.4}
-        baseColor="#4A3E30"
-        accentColor="#6C5B4A"
-        atmosphereColor="#F2B84B"
+        baseColor="#8B3020"
+        accentColor="#FF5E42"
+        atmosphereColor="#FF5E42"
         pattern="cratered"
         speed={0.08}
         angleOffset={1.2}
@@ -92,9 +104,9 @@ export default function SolarSystem({ reducedMotion }: { reducedMotion: boolean 
         label="Contact"
         orbitRadius={ORBITS.contact}
         size={0.5}
-        baseColor="#1B4B44"
-        accentColor="#4FD8C4"
-        atmosphereColor="#4FD8C4"
+        baseColor="#0A3F50"
+        accentColor="#00E5FF"
+        atmosphereColor="#00E5FF"
         pattern="ice"
         speed={0.06}
         angleOffset={3.3}

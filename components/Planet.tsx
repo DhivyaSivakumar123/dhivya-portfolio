@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState, useMemo } from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
-import { Text } from "@react-three/drei";
+import { Text, Billboard } from "@react-three/drei";
 import * as THREE from "three";
 import { useStore } from "@/store/useStore";
 import { planetRefs } from "@/lib/refs";
@@ -125,16 +125,20 @@ export default function Planet({
 
       <Atmosphere size={size} color={atmosphereColor} />
 
-      <Text
-        position={[0, size + 0.4, 0]}
-        fontSize={0.24}
-        color={hovered ? "#4FD8C4" : "#9AA5B3"}
-        anchorX="center"
-        anchorY="middle"
-      >
-        {label}
-      </Text>
-      {children}
+      <Billboard position={[0, size + 0.4, 0]}>
+        <Text
+          fontSize={0.24}
+          color={hovered ? "#4FD8C4" : "#9AA5B3"}
+          anchorX="center"
+          anchorY="middle"
+        >
+          {label}
+        </Text>
+      </Billboard>
+
+      {children && React.Children.map(children, child =>
+        React.isValidElement(child) ? React.cloneElement(child, { planetHovered: hovered } as any) : child
+      )}
     </group>
   );
 }
