@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useStore } from "@/store/useStore";
 import { sections, profile } from "@/data/content";
@@ -9,6 +10,39 @@ export default function UIOverlay() {
   const selected = useStore((s) => s.selected);
   const setSelected = useStore((s) => s.setSelected);
   const reset = useStore((s) => s.reset);
+
+  const [displayedQuery, setDisplayedQuery] = useState("");
+  const [displayedOutput, setDisplayedOutput] = useState("");
+
+  useEffect(() => {
+    const queryText = "select role from career_goals;";
+    const outputText = `> ${profile.role}`;
+    let queryIdx = 0;
+    let outputIdx = 0;
+    let timer: NodeJS.Timeout;
+
+    const typeQuery = () => {
+      if (queryIdx < queryText.length) {
+        setDisplayedQuery(queryText.slice(0, queryIdx + 1));
+        queryIdx++;
+        timer = setTimeout(typeQuery, 50);
+      } else {
+        timer = setTimeout(typeOutput, 300);
+      }
+    };
+
+    const typeOutput = () => {
+      if (outputIdx < outputText.length) {
+        setDisplayedOutput(outputText.slice(0, outputIdx + 1));
+        outputIdx++;
+        timer = setTimeout(typeOutput, 75);
+      }
+    };
+
+    timer = setTimeout(typeQuery, 200);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const activeLabel =
     selected === "about" ? "About" : sections.find((s) => s.id === selected)?.label;
@@ -21,16 +55,21 @@ export default function UIOverlay() {
           <span>dhivya.dev</span>
           <span className="inline-block w-2 h-4 bg-teal cursor-blink" />
         </div>
-        <div className="bg-surface/80 backdrop-blur border border-border rounded-lg px-4 py-3 font-mono text-xs text-textSecondary">
+        <div className="bg-surface/80 backdrop-blur border border-border rounded-lg px-4 py-3 font-mono text-xs text-textSecondary min-h-[66px] shadow-lg">
           <p>
-            <span className="text-teal">$</span> select role from career_goals;
+            <span className="text-teal">$</span> {displayedQuery}
+            {displayedQuery.length < 29 && (
+              <span className="inline-block w-1.5 h-3 bg-teal ml-0.5 animate-pulse" />
+            )}
           </p>
-          <p className="text-text">&gt; {profile.role}</p>
+          {displayedOutput && (
+            <p className="text-text mt-1">{displayedOutput}</p>
+          )}
         </div>
       </div>
 
       {/* Nav */}
-      <nav className="pointer-events-auto absolute bottom-6 left-6 flex flex-col gap-1">
+      <nav className="pointer-events-auto absolute bottom-6 left-6 bg-surface/80 backdrop-blur border border-border rounded-xl p-3 flex flex-col gap-1 min-w-[150px] shadow-lg">
         <button
           onClick={() => setSelected("about")}
           className={`text-left font-mono text-xs px-3 py-1.5 rounded transition-colors ${

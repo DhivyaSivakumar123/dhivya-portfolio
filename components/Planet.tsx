@@ -125,7 +125,7 @@ export default function Planet({
 
       <Atmosphere size={size} color={atmosphereColor} />
 
-      <Billboard position={[0, size + 0.4, 0]}>
+      <Billboard position={[0, size * 0.7 + 0.35, -size * 0.7 - 0.3]}>
         <Text
           fontSize={0.24}
           color={hovered ? "#4FD8C4" : "#9AA5B3"}

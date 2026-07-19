@@ -12,7 +12,7 @@ export default function ProjectList({ baseSize, planetHovered }: ProjectListProp
   if (!planetHovered) return null;
 
   return (
-    <group position={[0, -baseSize - 0.35, 0]}>
+    <group position={[0, -baseSize * 0.7 - 0.35, baseSize * 0.7 + 0.4]}>
       <Billboard>
         {projects.map((p, i) => (
           <Text

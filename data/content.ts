@@ -36,13 +36,13 @@ export const profile = {
   role: "Backend Developer",
   tagline:
     "Final-year B.Tech Information Technology student building reliable, scalable backend systems.",
-  cgpa: "8.5",
+  cgpa: "8.53",
   gradYear: "2027"
 };
 
 export const about = {
   paragraphs: [
-    "I'm a final-year B.Tech Information Technology student at Meenakshi Sundararajan Engineering College (MSEC) with a CGPA of 8.5. I enjoy solving programming problems in Java and continuously sharpening my problem-solving skills through Data Structures and Algorithms.",
+    "I'm a final-year B.Tech Information Technology student at Meenakshi Sundararajan Engineering College (MSEC) with a CGPA of 8.53. I enjoy solving programming problems in Java and continuously sharpening my problem-solving skills through Data Structures and Algorithms.",
     "My goal is to become a Backend Developer building scalable applications — strengthening my knowledge of Java, databases, and REST APIs while learning modern tools and industry best practices."
   ]
 };
@@ -52,7 +52,7 @@ export const education = {
   school: "Meenakshi Sundararajan Engineering College (MSEC)",
   location: "Kodambakkam",
   years: "2023 — 2027",
-  cgpa: "8.5",
+  cgpa: "8.53",
   status: "Final year"
 };
 

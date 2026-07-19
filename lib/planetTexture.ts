@@ -89,7 +89,53 @@ export function generatePlanetTextures(options: TextureOptions) {
         roughVal = 0.1 + (1 - mixVal) * 0.4;
       }
 
-      const col = new THREE.Color().copy(base).lerp(accent, mixVal);
+      let col = new THREE.Color().copy(base).lerp(accent, mixVal);
+
+      // Add real planet details based on seed
+      if (options.seed === "experience") {
+        // Earth swirling clouds pass
+        const cloudNoise = noise2D(nx * 3.5 + 20, nz * 3.5 + 20);
+        if (cloudNoise > 0.0) {
+          const cloudCol = new THREE.Color("#ffffff");
+          col.lerp(cloudCol, cloudNoise * 0.7);
+          roughVal = THREE.MathUtils.lerp(roughVal, 0.4, cloudNoise * 0.7);
+        }
+      } else if (options.seed === "projects") {
+        // Mars white polar ice caps
+        if (v < 0.12) {
+          const polarStrength = Math.pow((0.12 - v) / 0.12, 1.5);
+          const polarCol = new THREE.Color("#ffffff");
+          col.lerp(polarCol, polarStrength);
+          roughVal = THREE.MathUtils.lerp(roughVal, 0.35, polarStrength);
+        } else if (v > 0.88) {
+          const polarStrength = Math.pow((v - 0.88) / 0.12, 1.5);
+          const polarCol = new THREE.Color("#ffffff");
+          col.lerp(polarCol, polarStrength);
+          roughVal = THREE.MathUtils.lerp(roughVal, 0.35, polarStrength);
+        }
+      } else if (options.seed === "certifications") {
+        // Jupiter Great Red Spot storm
+        const du = u - 0.55;
+        const dv = v - 0.65;
+        const spotDist = (du * du) / (0.05 * 0.05) + (dv * dv) / (0.032 * 0.032);
+        if (spotDist < 1.0) {
+          const spotStrength = Math.pow(1.0 - spotDist, 0.5);
+          const spotCol = new THREE.Color("#b83018");
+          col.lerp(spotCol, spotStrength * 0.95);
+          roughVal = THREE.MathUtils.lerp(roughVal, 0.3, spotStrength * 0.9);
+        }
+      } else if (options.seed === "contact") {
+        // Neptune Great Dark Spot
+        const du = u - 0.4;
+        const dv = v - 0.6;
+        const spotDist = (du * du) / (0.06 * 0.06) + (dv * dv) / (0.04 * 0.04);
+        if (spotDist < 1.0) {
+          const spotStrength = Math.pow(1.0 - spotDist, 0.5);
+          const spotCol = new THREE.Color("#08153d");
+          col.lerp(spotCol, spotStrength * 0.85);
+          roughVal = THREE.MathUtils.lerp(roughVal, 0.25, spotStrength * 0.8);
+        }
+      }
 
       const idx = (y * width + x) * 4;
       imgData.data[idx] = Math.floor(col.r * 255);
